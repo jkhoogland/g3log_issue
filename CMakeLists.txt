@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.9)
 
 include(ExternalProject)
 
@@ -21,10 +21,11 @@ externalproject_add(g3log
   URL_HASH         SHA1=88e4fa3f4380be3e11abe692f47c993e8b61c31e
   SOURCE_DIR       "${G3LOG_SOURCE_DIR}"
   BINARY_DIR       "${G3LOG_BINARY_DIR}"
-  CMAKE_ARGS       -DG3_SHARED_LIB=OFF -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_MACOSX_RPATH=1 -DADD_FATAL_EXAMPLE=OFF
+  CMAKE_ARGS       -DG3_SHARED_LIB=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} -DCMAKE_MACOSX_RPATH=1 -DADD_FATAL_EXAMPLE=OFF
   INSTALL_COMMAND  ""
   )
 
+find_package(Threads)
     
 add_library(
   foo
@@ -44,7 +45,7 @@ target_link_libraries(
   foo
   PUBLIC
   ${G3LOG_LIBRARY}
-  )
+  ${CMAKE_THREAD_LIBS_INIT})
 
 
 if(LOG_IN_DLL)
